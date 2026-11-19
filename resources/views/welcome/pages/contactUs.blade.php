@@ -54,9 +54,9 @@
                 <span><small>Call us</small><b>{{ $g->mobile }}</b></span>
             </a>
             @endif
-            <a href="https://wa.me/8801976089801" target="_blank" rel="noopener" class="tt-card tt-contact-tile">
+            <a href="{{ whatsappLink() }}" target="_blank" rel="noopener" class="tt-card tt-contact-tile">
                 <span class="tt-ct-icon tt-ct-wa"><i class="fa-brands fa-whatsapp"></i></span>
-                <span><small>WhatsApp</small><b>Chat with us</b></span>
+                <span><small>WhatsApp</small><b>{{ whatsappDisplay() }}</b></span>
             </a>
             @if($g->email)
             <a href="mailto:{{ $g->email }}" class="tt-card tt-contact-tile">

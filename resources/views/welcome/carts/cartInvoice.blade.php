@@ -244,7 +244,7 @@
 
         <div class="tt-inv-help">
             <i class="fa-brands fa-whatsapp"></i>
-            <span>Need to change something in this order? <a href="https://wa.me/8801976089801?text={{ urlencode('Hi, about my order #'.$order->invoice) }}" target="_blank" rel="noopener">Message us on WhatsApp</a>@if($g->mobile) or call <a href="tel:{{ $tel }}">{{ $g->mobile }}</a>@endif.</span>
+            <span>Need to change something in this order? <a href="{{ whatsappLink('Hi, about my order #'.$order->invoice) }}" target="_blank" rel="noopener">Message us on WhatsApp</a>@if($g->mobile) or call <a href="tel:{{ $tel }}">{{ $g->mobile }}</a>@endif.</span>
         </div>
     </div>
 </div>

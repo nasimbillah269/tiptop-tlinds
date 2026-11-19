@@ -237,7 +237,7 @@
                     <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" class="tt-totop-track"/><circle cx="24" cy="24" r="22" class="tt-totop-bar" id="ttToTopBar"/></svg>
                     <i class="fas fa-arrow-up"></i>
                 </button>
-                <a href="https://wa.me/8801976089801?text={{ urlencode('Hi '.general()->title.', I would like to know more about your blinds.') }}" target="_blank" rel="noopener" class="tt-wa" aria-label="Chat with us on WhatsApp">
+                <a href="{{ whatsappLink('Hi '.general()->title.', I would like to know more about your blinds.') }}" target="_blank" rel="noopener" class="tt-wa" aria-label="Chat with us on WhatsApp">
                     <span class="tt-wa-icon"><i class="fa-brands fa-whatsapp"></i><span class="tt-wa-dot" aria-hidden="true"></span></span>
                     <span class="tt-wa-text"><small>Need help?</small><b>Chat with us</b></span>
                 </a>

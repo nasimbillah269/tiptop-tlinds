@@ -232,7 +232,7 @@
                     <div class="tt-contact-row">
                         @if($phoneDigits)
                         <a href="tel:+{{ $phoneDigits }}" class="tt-btn-outline"><i class="fas fa-phone"></i> Call for a quote</a>
-                        <a href="https://wa.me/{{ $phoneDigits }}?text={{ urlencode('Hi, I am interested in: '.$product->name) }}" target="_blank" rel="noopener" class="tt-btn tt-wa"><i class="fab fa-whatsapp"></i> WhatsApp us</a>
+                        <a href="{{ whatsappLink('Hi, I am interested in: '.$product->name) }}" target="_blank" rel="noopener" class="tt-btn tt-wa"><i class="fab fa-whatsapp"></i> WhatsApp us</a>
                         @endif
                     </div>
                 </div>

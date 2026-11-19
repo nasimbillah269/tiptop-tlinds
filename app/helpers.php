@@ -22,6 +22,21 @@ function general(){
   return app('general.settings');
 }
 
+// WhatsApp number used by every "Chat on WhatsApp" link on the site (international format, digits only).
+function whatsappNumber(){
+  return '8801333340271';
+}
+
+// Readable form of the same number for display.
+function whatsappDisplay(){
+  return '+880 1333-340271';
+}
+
+// wa.me link, optionally with a pre-filled message.
+function whatsappLink($text=null){
+  return 'https://wa.me/'.whatsappNumber().($text ? '?text='.urlencode($text) : '');
+}
+
 function websiteTitle($title=null){
   
   $hasTitle =$title?' - ':'';
