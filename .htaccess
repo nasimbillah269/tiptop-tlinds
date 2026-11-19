@@ -1,0 +1,50 @@
+<IfModule mod_rewrite.c>
+  <IfModule mod_negotiation.c>
+    Options -MultiViews -Indexes
+  </IfModule>
+
+  RewriteEngine On
+
+  # Preserve Authorization header for API authentication.
+  RewriteCond %{HTTP:Authorization} .
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+  # Force HTTPS (supports direct SSL and reverse-proxy SSL).
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Old /public/... category URL -> clean URL (checks the original request, so no loop)
+  RewriteCond %{THE_REQUEST} \s/public/product-category/wooden-blinds/?[\s?]
+  RewriteRule ^ https://curtainsbd.com/product-category/wooden-blinds [R=301,L]
+
+  # Redirect all requests to /public.
+  RewriteRule ^public/ - [L]
+  RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Disable Directory listing
+Options -Indexes
+
+# Block sensitive framework and config files from direct web access.
+<FilesMatch "^(?:\.|artisan$|composer\.(?:json|lock)$|package(?:-lock)?\.json$|phpunit\.xml$|README\.md$|\.gitignore$|\.gitattributes$|\.env(?:\..*)?)$">
+    Require all denied
+</FilesMatch>
+
+
+
+# Old/renamed product URLs -> current pages (301 keeps SEO value)
+RedirectMatch 301 ^/(?:public/)?product/premium-vertical-blinds-uttara/?$ https://curtainsbd.com/product/premium-vertical-blinds-uttara-dhaka
+RedirectMatch 301 ^/(?:public/)?product/denver/?$ https://curtainsbd.com/product/denver-semi-blackout-roller-blinds
+RedirectMatch 301 ^/(?:public/)?product/monica/?$ https://curtainsbd.com/product-category/roller-blinds
+RedirectMatch 301 ^/(?:public/)?product/vertical-blinds-dhaka-curtains-bd/?$ https://curtainsbd.com/product-category/vertical-blinds
+RedirectMatch 301 ^/(?:public/)?product/vertical-blinds-vertical-blinds-curtain-vertical-blind-supplier/?$ https://curtainsbd.com/product-category/vertical-blinds
+
+Redirect 301 /product-category/roll-blinds /product-category/roller-blinds
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php83” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php83 .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit

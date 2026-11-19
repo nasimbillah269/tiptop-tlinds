@@ -1,0 +1,32 @@
+# Search engines and AI search / answer engines are welcome.
+User-agent: *
+User-agent: Googlebot
+User-agent: Googlebot-Image
+User-agent: Google-Extended
+User-agent: Bingbot
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Applebot
+User-agent: Applebot-Extended
+User-agent: DuckAssistBot
+User-agent: meta-externalagent
+User-agent: Amazonbot
+User-agent: MistralAI-User
+User-agent: CCBot
+Allow: /
+Disallow: /admin
+Disallow: /login
+Disallow: /register
+Disallow: /dashboard
+Disallow: /customer
+Disallow: /checkout
+Disallow: /carts
+
+Sitemap: https://curtainsbd.com/sitemap.xml
+Sitemap: https://curtainsbd.com/image-sitemap.xml

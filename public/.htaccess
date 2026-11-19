@@ -1,0 +1,85 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+    
+</IfModule>
+
+# Disable directory listing
+Options -Indexes
+
+# Block sensitive files (.env, composer, config, etc.)
+<FilesMatch "\.(env|json|config.js|md|gitignore|gitattributes|lock|composer.json|example|sql|bak|ini|sh)$">
+    Require all denied
+</FilesMatch>
+
+# Block artisan file
+<FilesMatch "(artisan)$">
+    Require all denied
+</FilesMatch>
+
+# Block Dangerous File Uploads (ZIP, EXE, Shell, etc.)
+<FilesMatch "\.(phtml|phar|exe|sh|bash|zip|gz|tar|cgi|pl|jsp|asp|aspx)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Disable PHP execution in dangerous folders
+<IfModule mod_php7.c>
+    <Directory "/storage">
+        php_flag engine off
+    </Directory>
+    <Directory "/bootstrap/cache">
+        php_flag engine off
+    </Directory>
+    <Directory "/public/uploads">
+        php_flag engine off
+    </Directory>
+    <Directory "/config">
+        php_flag engine off
+    </Directory>
+</IfModule>
+
+# Prevent access to hidden files and folders like .git or .env
+RedirectMatch 404 /(\.git|\.env|composer\.json|artisan|server\.php|readme\.md|storage|node_modules)
+# Security: only the Laravel front controller may run as PHP.
+# Any other PHP file dropped into public/ (uploads, media, images) is refused.
+<FilesMatch "(?i)\.(php\d*|phtml|pht|phar|phps|inc|cgi|pl|py|sh)$">
+    Require all denied
+</FilesMatch>
+<Files "index.php">
+    Require all granted
+</Files>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always unset X-Powered-By
+</IfModule>
+
+# Search & AI search: allow full snippets and large image previews on public pages
+# (Google AI Overviews, Bing Copilot, ChatGPT, Perplexity, Claude etc.).
+# Private areas get noindex.
+SetEnvIfNoCase Request_URI "^/(admin|login|register|customer|checkout|carts|dashboard)" PRIVATE_AREA
+<IfModule mod_headers.c>
+    Header set X-Robots-Tag "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" env=!PRIVATE_AREA
+    Header set X-Robots-Tag "noindex, nofollow" env=PRIVATE_AREA
+</IfModule>
