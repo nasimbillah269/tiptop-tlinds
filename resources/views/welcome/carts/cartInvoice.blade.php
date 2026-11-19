@@ -1,134 +1,13 @@
 @extends(general()->theme.'.layouts.app') @section('title')
-<title>{{general()->title}} | {{general()->subtitle}}</title>
+<title>{{ $order ? websiteTitle('Invoice #'.$order->invoice) : websiteTitle('Invoice') }}</title>
 @endsection @section('SEO')
 <meta name="description" content="{!!general()->meta_description!!}" />
-<meta name="keywords" content="{{general()->meta_keyword}}" />
+<meta name="robots" content="noindex, nofollow" />
 <meta property="og:title" content="{{general()->meta_title}}" />
-<meta property="og:description" content="{!!general()->meta_description!!}" />
-<meta property="og:image" content="{!!general()->meta_description!!}" />
 <meta property="og:url" content="{{route('index')}}" />
 @endsection @push('css')
-<style type="text/css">
-.page-header {
-    padding: 10px 0 !important;
-    text-align: center;
-    background: #2ca9dc !important;
-}
-    .invoice-inner {
-        padding: 10px 20px;
-        box-shadow: 0 0 20px #eee;
-        margin-bottom: 20px;
-    }
-
-    .invoice-header {
-        padding: 20px 0px 35px;
-    }
-
-    .invoice-header img {
-        width: 100%;
-    }
-
-    .invoice-header h6 {
-        margin-top: 15px !important;
-    }
-
-    .invoice-header h6, p {
-        margin: 5px 0;
-        line-height: 15px;
-        font-size: 12px;
-        color:black !important;
-    }
-
-    .invoice-inner h2 {
-        margin: 10px 0px;
-        font-size: 41px;
-        letter-spacing: 3px;
-        color: #00549e;
-    }
-
-    .ordrinfotable {
-        padding: 10px 12px;
-        border: 1px solid #ccc;
-    }
-
-    table.tableOrderinfo.table {
-        margin: 0;
-        padding: 0;
-    }
-
-    .tableOrderinfo td {
-        padding: 0;
-        font-size: 13px;
-        line-height: 17px;
-        border: none;
-    }
-
-    .mainTable {
-        margin: 30px 0;
-    }
-
-    .mainproducttable {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-    }
-
-    .mainproducttable td {
-        padding: 5px 7px;
-        font-size: 12px;
-        border: 1px solid #ccc;
-    }
-
-    tr.headerTable td {
-        font-size: 13px;
-        padding: 7px;
-    }
-
-    .boxFrozen {
-        border: 1px solid #ccc;
-        text-align: center;
-        margin-bottom: 6px;
-        border-bottom: 0px solid #ccc;
-    }
-
-    .boxFrozen h3 {
-        padding: 5px;
-        color: #fff;
-        margin: 0;
-        background-color: #ff1414;
-        font-size: 16px;
-    }
-
-    .boxFrozen p {
-        font-size: 16px;
-        padding: 5px 0px;
-        border-bottom: 1px solid #ccc;
-    }
-
-    .footerInvoice {
-        margin-top: 100px;
-    }
-
-    @media print {
-        tr.headerTable td {
-            border-color: red;
-        }
-    }
-
-    @media only screen and (max-width: 567px) {
-        .invoice-inner {
-            padding: 10px;
-            margin: 10px 0px;
-        }
-        .invoiceContainer {
-            padding: 0;
-        }
-    }
-</style>
-
 <script>
-
-   @if($purchases)
+   @if($order && $purchases)
     window.dataLayer = window.dataLayer || [];
         dataLayer.push({
             event: "purchase",
@@ -148,7 +27,7 @@
                         item_brand: "{{ $product->brand ? $product->brand->name : '' }}",
                         price: "{{ round($item->price) }}",
                         quantity: "{{ $item->quantity }}",
-                    
+
                         @endif
                     }@if(!$loop->last),@endif
                     @endforeach
@@ -168,238 +47,214 @@
         }
     });
     @endif
-
 </script>
-@endpush 
+@endpush
+
+@php
+    $g = general();
+    if ($order) {
+        $status = strtolower((string) $order->order_status);
+        $statusClass = [
+            'pending' => 'is-pending', 'confirmed' => 'is-info', 'shipped' => 'is-info',
+            'delivered' => 'is-success', 'cancelled' => 'is-danger',
+        ][$status] ?? 'is-pending';
+        $paid = strtolower((string) $order->payment_status) === 'paid';
+        $payLabel = [
+            'handcash' => 'Cash on Delivery', 'cash on delivery' => 'Cash on Delivery',
+        ][strtolower((string) $order->payment_method)] ?? ucfirst((string) $order->payment_method ?: '—');
+        $address = trim($order->fullAddress(), ' ,');
+        $tel = preg_replace('/[^0-9+]/', '', (string) $g->mobile);
+    }
+@endphp
 
 @section('contents')
 
-<!-- Start of Page Header -->
-<div class="page-header">
-    <div class="overlayPageHeaderNew">
-        <div class="container">
-            <h1 class="page-title mb-0">My Invoice </h1>
+@if(!$order)
+<div class="tt-page">
+    <div class="container">
+        <div class="tt-card tt-empty">
+            <div class="tt-empty-icon"><i class="fas fa-file-circle-question"></i></div>
+            <h3>Invoice not found</h3>
+            <p>We couldn't find this invoice. Please check the link or track your order with the invoice number.</p>
+            <a href="{{ route('OrderTrack') }}" class="tt-btn">Track Order <i class="fas fa-arrow-right"></i></a>
         </div>
     </div>
 </div>
-<!-- End of Page Header -->
+@else
 
-<div class="main-home-page">
+<section class="tt-page-hero tt-inv-hero">
     <div class="container">
-        <div class="cart-page">
-            <div class="Invoice-table">
-                <div class="row" style="margin: 0;">
-                    <div class="col-lg-2"></div>
-                    <div class="col-lg-8" style="padding: 0;">
-                        <p style="text-align: center;">
-                            <span id="PrintAction" style="margin: 5px; display: inline-block; background: red; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Print</span>
-                        </p>
-                        <div class="invoicePage PrintAreaContact">
-                            <style>
-                                @media print {
-                                    .invoice-inner{
-                                        background-color: #fff;
-                                        padding: 30px ;
-                                        margin: 30px 0;
-                                        height: 100%;
-                                    }
-                                    .invoice-header{
-                                        margin-bottom: 25px;
-                                    }
-                                    .invoice-header h6,
-                                    p {
-                                        margin: 0;
-                                        line-height: 15px;
-                                        font-size: 12px;
-                                        color: black;
-                                    }
-                                    
-                                    .mainTable{
-                                        margin: 20px 0 100px;
-                                    }
-                                    
-                                    .invoice-header h6, p {
-                                        margin: 5px 0!important;
-                                        color:black !important;
-                                    }
-                                    
-                                    .mainproducttable td {
-                                        border: 1px solid #c1c1c1;
-                                        padding: 5px;
-                                    }
-                                    
-                                    .invoice-header img {
-                                        border-radius: 5px !important;
-                                    }
-                                    
-                                    .invoice-inner h2 {
-                                        color: #000!important;
-                                        margin-top: 15px!important;
-                                    }
-                                    
-                                    .tableOrderinfo td, tr{
-                                        color: #000!important;
-                                    }
-                                }
-                            </style>
-                            <div class="container invoiceContainer">
-                                <div class="invoice-inner">
-                                    <div class="invoice-header">
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <img src="{{asset(general()->logo())}}" />
-                                            </div>
-                                            <div class="col-1"></div>
-                                            <div class="col-7" style="text-align: end;">
-                                                <h6>CONTACT INFORMATION:</h6>
-                                                <p>{{general()->address_one}}</p>
-                                                <p>{{general()->mobile}}</p>
-                                                <p>{{general()->website}}</p>
-                                                <p>{{general()->email}}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr style="border: 2px solid #00549e; margin: 0;" />
-                                    <h2 class="headTi">INVOICE</h2>
-                                    <div class="orderInfo">
-                                        <div class="row">
-                                            <div class="col-7 mt-3">
-                                                <p>Order From:</p>
-                                                <p><b>Name:</b> {{$order->name}}</p>
-                                                <p><b>Mobile:</b> {{$order->mobile}}</p>
-                                                <p><b>Email:</b> {{$order->email}}</p>
-                                                <p><b>Shipping:</b> {{$order->fullAddress()}}</p>
-                                            </div>
-                                            <div class="col-5">
-                                                <div class="ordrinfotable">
-                                                    <table class="tableOrderinfo table">
-                                                        <thead>
-                                                            <tr>
-                                                                <td style="width: 40%;">Invoice Number</td>
-                                                                <td>: {{ $order->invoice }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="width: 40%;">Invoice Date</td>
-                                                                <td>: {{ $order->created_at->format('d-m-Y h:i A') }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="width: 40%;">Order Status</td>
-                                                                <td>: {{ucfirst($order->order_status)}}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="width: 40%;">Payment Method</td>
-                                                                <td>: {{ucfirst($order->payment_method)}}</td>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="table-responsive">
-                                        <div class="mainTable">
-                                            <table class="table mainproducttable">
-                                                <thead>
-                                                    <tr class="headerTable">
-                                                        <td style="width: 60%;">Product Name & Description</td>
-                                                        <td style="width: 15%; text-align: center;">Sq ft</td>
-                                                        <td style="width: 10%; text-align: center;">Unit Price</td>
-                                                        <td style="width: 15%; text-align: center;">Total Price</td>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach($order->items as $i=>$item)
-                                                    <tr>
-                                                        <td>{{ $item->product_name }} 
-                                                            @if($item->color)
-                                                            <b>Height:</b> {{$item->color}} Inch.
-                                                            @endif
-                                                            @if($item->size)
-                                                            <b>Width:</b> {{$item->size}} Inch.
-                                                            @endif
-                                                            
-                                                        </td>
-                                                        <td style="text-align: center;">{{$item->quantity}}</td>
-                                                        <td style="text-align: center;">{{ priceFormat($item->price) }}</td>
-                                                        <td style="text-align: center;">{{ priceFormat($item->final_price) }}</td>
-                                                    </tr>
-                                                    @endforeach
-
-                                                    <tr>
-                                                        <td style="text-align: end;">Subtotal</td>
-                                                        <td style="text-align: center;">{{$order->items->sum('quantity')}} Sq ft</td>
-                                                        <td style="text-align: end;"></td>
-                                                        <td style="text-align: center;">{{ priceFormat($order->total_price) }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3" style="text-align: end;">VAT</td>
-                                                        <td style="text-align: center;">{{ priceFormat($order->tax) }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3" style="text-align: end;">Discount</td>
-                                                        <td style="text-align: center;">{{ priceFormat($order->coupon_discount) }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3" style="text-align: end;">Shipping</td>
-                                                        <td style="text-align: center;">
-                                                            @if($order->shipping_charge>0) {{priceFormat($order->shipping_charge)}} @else Free Shipping @endif
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="3" style="text-align: end;">Grand Total</td>
-                                                        <td style="text-align: center;">{{ priceFormat($order->grand_total) }}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                    <div class="frozenTable">
-                                        <div class="row">
-                                            <div class="col-md-5">
-                                                <p>Note: {{$order->note}}</p>
-                                            </div>
-                                            <div class="col-md-7">
-                                                @if($order->payment_status=='paid')
-                                                <div class="paidsStatus" style="text-align: center;">
-                                                    <img src="{{asset('media/paid.png')}}" style="max-width: 120px;" />
-                                                </div>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="footerInvoice">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <p>Thank you for shopping from {{general()->title}}</p>
-                                            </div>
-                                            <div class="col-md-6" style="text-align: end;">
-                                                ------------------------
-                                                <p>Authorised Sign</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <ol class="tt-breadcrumb">
+            <li><a href="{{ route('index') }}">Home</a></li>
+            <li aria-current="page">Invoice</li>
+        </ol>
+        @if($purchases)
+            <div class="tt-inv-success">
+                <span class="tt-inv-check"><i class="fas fa-check"></i></span>
+                <div>
+                    <h1>Thank you, your order is placed!</h1>
+                    <p>We have received your order <b>#{{ $order->invoice }}</b>. Our team will call you shortly to confirm the details and schedule measurement or delivery.</p>
                 </div>
             </div>
+        @else
+            <h1>Invoice #{{ $order->invoice }}</h1>
+            <p>Placed on {{ $order->created_at->format('d M Y, h:i A') }}</p>
+        @endif
+        <div class="tt-steps">
+            <div class="tt-step is-done"><span class="tt-step-dot"><i class="fas fa-check"></i></span><span class="tt-step-label">Cart</span></div>
+            <div class="tt-step-line is-done"></div>
+            <div class="tt-step is-done"><span class="tt-step-dot"><i class="fas fa-check"></i></span><span class="tt-step-label">Checkout</span></div>
+            <div class="tt-step-line is-done"></div>
+            <div class="tt-step is-active"><span class="tt-step-dot"><i class="fas fa-file-invoice"></i></span><span class="tt-step-label">Invoice</span></div>
         </div>
     </div>
+</section>
 
-    @endsection @push('js')
+<div class="tt-page" style="padding-top:0;">
+    <div class="container">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.print/1.6.2/jQuery.print.min.js"></script>
-    <script src="{{asset('admin/app-assets/js/printThis.js')}}"></script>
+        <div class="tt-inv-actions">
+            <button type="button" class="tt-btn" id="ttPrintInvoice"><i class="fas fa-print"></i> Print / Save PDF</button>
+            <a href="{{ route('OrderTrack', ['invoice' => $order->invoice]) }}" class="tt-btn-outline"><i class="fas fa-location-crosshairs"></i> Track Order</a>
+            <a href="{{ route('index') }}" class="tt-btn-outline"><i class="fas fa-bag-shopping"></i> Continue Shopping</a>
+        </div>
 
-    <script type="text/javascript">
-        $("#PrintAction").on("click", function () {
-            $(".PrintAreaContact").printThis();
-        });
-    </script>
+        <article class="tt-invoice" id="ttInvoice">
+            <header class="tt-inv-head">
+                <div class="tt-inv-brand">
+                    @include(general()->theme.'.layouts.brand')
+                    <ul>
+                        @if($g->address_one)<li><i class="fas fa-location-dot"></i> {{ $g->address_one }}</li>@endif
+                        @if($g->mobile)<li><i class="fas fa-phone"></i> {{ $g->mobile }}</li>@endif
+                        @if($g->email)<li><i class="fas fa-envelope"></i> {{ $g->email }}</li>@endif
+                    </ul>
+                </div>
+                <div class="tt-inv-title">
+                    <span>Invoice</span>
+                    <b>#{{ $order->invoice }}</b>
+                    <div class="tt-inv-badges">
+                        <em class="tt-inv-badge {{ $statusClass }}">{{ ucfirst($status) }}</em>
+                        <em class="tt-inv-badge {{ $paid ? 'is-success' : 'is-pending' }}">{{ $paid ? 'Paid' : 'Unpaid' }}</em>
+                    </div>
+                </div>
+            </header>
 
-    @endpush
+            <section class="tt-inv-meta">
+                <div>
+                    <small>Billed to</small>
+                    <b>{{ $order->name }}</b>
+                    @if($order->mobile)<span>{{ $order->mobile }}</span>@endif
+                    @if($order->email)<span>{{ $order->email }}</span>@endif
+                </div>
+                <div>
+                    <small>Delivery address</small>
+                    <span>{{ $address ?: '—' }}</span>
+                </div>
+                <div class="tt-inv-meta-list">
+                    <p><small>Invoice date</small><b>{{ $order->created_at->format('d M Y') }}</b></p>
+                    <p><small>Time</small><b>{{ $order->created_at->format('h:i A') }}</b></p>
+                    <p><small>Payment</small><b>{{ $payLabel }}</b></p>
+                </div>
+            </section>
+
+            <div class="tt-inv-table-wrap">
+                <table class="tt-inv-table">
+                    <thead>
+                        <tr>
+                            <th class="tt-inv-num">#</th>
+                            <th>Product</th>
+                            <th class="tt-inv-r">Quantity</th>
+                            <th class="tt-inv-r">Unit price</th>
+                            <th class="tt-inv-r">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($order->items as $i => $item)
+                        @php $unit = ($item->product && $item->product->running_feet) ? 'Rft' : 'Sq ft'; @endphp
+                        <tr>
+                            <td class="tt-inv-num">{{ $i + 1 }}</td>
+                            <td>
+                                <div class="tt-inv-prod">
+                                    @if($item->product)
+                                    <span class="tt-inv-thumb"><img src="{{ asset($item->product->image()) }}" alt=""></span>
+                                    @endif
+                                    <div>
+                                        <b>{{ $item->product_name }}</b>
+                                        @if($item->color || $item->size)
+                                        <span class="tt-inv-dims">
+                                            @if($item->size)<em>W {{ $item->size }}"</em>@endif
+                                            @if($item->color)<em>H {{ $item->color }}"</em>@endif
+                                        </span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="tt-inv-r" data-label="Quantity">{{ $item->quantity + 0 }} {{ $unit }}</td>
+                            <td class="tt-inv-r" data-label="Unit price">{{ priceFullFormat($item->price) }}</td>
+                            <td class="tt-inv-r tt-inv-strong" data-label="Amount">{{ priceFullFormat($item->final_price) }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <section class="tt-inv-bottom">
+                <div class="tt-inv-notes">
+                    @if($order->note)
+                    <div class="tt-inv-note">
+                        <small>Order note</small>
+                        <p>{{ $order->note }}</p>
+                    </div>
+                    @endif
+                    <div class="tt-inv-note tt-inv-next">
+                        <small>What happens next</small>
+                        <ul>
+                            <li><i class="fas fa-phone"></i> We call you to confirm the order</li>
+                            <li><i class="fas fa-ruler-combined"></i> Measurement check and production</li>
+                            <li><i class="fas fa-screwdriver-wrench"></i> Delivery and installation</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tt-inv-totals">
+                    <p><span>Subtotal</span><b>{{ priceFullFormat($order->total_price) }}</b></p>
+                    @if($order->tax > 0)<p><span>VAT</span><b>{{ priceFullFormat($order->tax) }}</b></p>@endif
+                    @if($order->coupon_discount > 0)<p class="is-discount"><span>Discount</span><b>− {{ priceFullFormat($order->coupon_discount) }}</b></p>@endif
+                    <p><span>Shipping</span><b>{{ $order->shipping_charge > 0 ? priceFullFormat($order->shipping_charge) : 'Free' }}</b></p>
+                    <p class="tt-inv-grand"><span>Grand total</span><b>{{ priceFullFormat($order->grand_total) }}</b></p>
+                    @if($order->paid_amount > 0)
+                    <p><span>Paid</span><b>{{ priceFullFormat($order->paid_amount) }}</b></p>
+                    <p class="tt-inv-due"><span>Balance due</span><b>{{ priceFullFormat($order->due_amount) }}</b></p>
+                    @endif
+                </div>
+            </section>
+
+            @if($paid)<div class="tt-inv-stamp" aria-hidden="true">Paid</div>@endif
+
+            <footer class="tt-inv-foot">
+                <div>
+                    <b>Thank you for choosing {{ $g->title }}!</b>
+                    <span>Questions about this invoice? Call {{ $g->mobile }}@if($g->email) or email {{ $g->email }}@endif.</span>
+                </div>
+                <div class="tt-inv-sign">
+                    <span></span>
+                    <small>Authorised signature</small>
+                </div>
+            </footer>
+        </article>
+
+        <div class="tt-inv-help">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span>Need to change something in this order? <a href="https://wa.me/8801976089801?text={{ urlencode('Hi, about my order #'.$order->invoice) }}" target="_blank" rel="noopener">Message us on WhatsApp</a>@if($g->mobile) or call <a href="tel:{{ $tel }}">{{ $g->mobile }}</a>@endif.</span>
+        </div>
+    </div>
 </div>
+@endif
+
+@endsection @push('js')
+<script>
+    (function () {
+        var btn = document.getElementById('ttPrintInvoice');
+        if (btn) btn.addEventListener('click', function () { window.print(); });
+    })();
+</script>
+@endpush

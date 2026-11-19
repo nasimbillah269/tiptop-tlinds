@@ -3,7 +3,7 @@
    Projects, blog, about, contact, policy pages and account forms.
    Uses the design tokens defined in premium.css (--tt-*).
    ========================================================================== */
-.tt-page section:not(.tt-card) { padding: 0; } /* legacy theme pads every <section> by 60px; cards keep their own padding */
+.tt-page :where(section:not(.tt-card)) { padding: 0; } /* legacy theme pads every <section> by 60px; :where keeps this low-specificity so any component class can set its own padding */
 .tt-page p { color: var(--tt-text) !important; } /* legacy style13.css makes every <p> near-white */
 
 /* ---------- CTA band ---------- */
@@ -326,3 +326,134 @@ a.tt-contact-tile:hover { transform: translateY(-4px); box-shadow: var(--tt-shad
 .tt-auth p.tt-auth-note { font-size: 13px; color: var(--tt-muted) !important; margin: 0; line-height: 1.6; }
 .tt-auth p.tt-auth-switch { text-align: center; margin: 22px 0 0; font-size: 14.5px; color: var(--tt-text) !important; }
 .tt-auth p.tt-field-error { color: #c0392b !important; font-size: 12.5px; margin: 6px 0 0; }
+
+/* ---------- Invoice ---------- */
+.tt-inv-success { display: flex; gap: 18px; align-items: flex-start; margin-top: 14px; max-width: 760px; }
+.tt-inv-check {
+    flex-shrink: 0; width: 56px; height: 56px; border-radius: 50%;
+    background: #1f9d55; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 24px;
+    box-shadow: 0 0 0 8px rgba(31, 157, 85, .2); animation: tt-pop .5s var(--tt-ease) both;
+}
+@keyframes tt-pop { from { transform: scale(.4); opacity: 0; } to { transform: none; opacity: 1; } }
+.tt-inv-hero .tt-inv-success h1 { margin: 2px 0 8px; }
+.tt-inv-success p b { color: #fff; }
+
+.tt-inv-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 22px; }
+.tt-inv-actions .tt-btn-outline { background: #fff; }
+
+.tt-invoice {
+    position: relative; max-width: 960px; margin: 0 auto; overflow: hidden;
+    background: #fff; border: 1px solid var(--tt-line); border-radius: 20px; box-shadow: var(--tt-shadow-lg);
+}
+.tt-invoice::before { content: ''; display: block; height: 6px; background: linear-gradient(90deg, var(--tt-ink), var(--tt-gold-2), var(--tt-ink)); }
+
+.tt-inv-head { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; padding: 34px 40px 26px; border-bottom: 1px solid var(--tt-line); }
+.tt-inv-brand .tt-brand { pointer-events: none; }
+.tt-inv-brand ul { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 5px; }
+.tt-inv-brand li { font-size: 13px; color: var(--tt-muted); display: flex; gap: 8px; align-items: flex-start; }
+.tt-inv-brand li i { color: var(--tt-gold); width: 14px; margin-top: 3px; font-size: 12px; }
+.tt-inv-title { text-align: right; }
+.tt-inv-title span { display: block; font-family: var(--tt-serif); font-size: 38px; font-weight: 600; color: var(--tt-ink); line-height: 1; letter-spacing: .02em; }
+.tt-inv-title b { display: block; margin-top: 8px; font-size: 16px; color: var(--tt-gold); letter-spacing: .04em; }
+.tt-inv-badges { display: flex; gap: 6px; justify-content: flex-end; margin-top: 12px; flex-wrap: wrap; }
+.tt-inv-badge { font-style: normal; font-size: 11.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 5px 11px; border-radius: 999px; }
+.tt-inv-badge.is-pending { background: #fdf3e2; color: #8a5a12; }
+.tt-inv-badge.is-info { background: #e7effc; color: #1d4f9c; }
+.tt-inv-badge.is-success { background: #e8f6ee; color: #1f8a4c; }
+.tt-inv-badge.is-danger { background: #fdecea; color: #a5281b; }
+
+.tt-invoice .tt-inv-meta { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 20px; padding: 26px 40px; background: #fbfaf7; border-bottom: 1px solid var(--tt-line); }
+.tt-inv-meta small, .tt-inv-note small {
+    display: block; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--tt-gold); margin-bottom: 8px;
+}
+.tt-inv-meta b { display: block; font-size: 16px; color: var(--tt-ink); margin-bottom: 4px; }
+.tt-inv-meta span { display: block; font-size: 13.5px; color: var(--tt-text); line-height: 1.6; }
+.tt-inv-meta-list { display: grid; gap: 8px; }
+.tt-invoice p { margin: 0; color: var(--tt-text) !important; }
+.tt-inv-meta-list p { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.tt-inv-meta-list small { margin: 0; }
+.tt-inv-meta-list b { font-size: 13.5px; margin: 0; }
+
+.tt-inv-table-wrap { padding: 8px 40px 0; overflow-x: auto; }
+.tt-inv-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.tt-inv-table th {
+    padding: 16px 10px 12px; font-size: 11.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--tt-muted); border-bottom: 2px solid var(--tt-ink); text-align: left; white-space: nowrap;
+}
+.tt-inv-table td { padding: 16px 10px; border-bottom: 1px dashed var(--tt-line); color: var(--tt-text); vertical-align: middle; }
+.tt-inv-table .tt-inv-r { text-align: right; white-space: nowrap; }
+.tt-inv-table .tt-inv-num { width: 34px; color: var(--tt-muted); font-weight: 700; }
+.tt-inv-strong { font-weight: 800; color: var(--tt-ink) !important; }
+.tt-inv-prod { display: flex; gap: 12px; align-items: center; }
+.tt-inv-thumb { flex-shrink: 0; width: 52px; height: 52px; border-radius: 10px; overflow: hidden; background: var(--tt-gold-soft); }
+.tt-inv-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.tt-inv-prod b { display: block; color: var(--tt-ink); font-size: 14.5px; line-height: 1.35; }
+.tt-inv-dims { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+.tt-inv-dims em { font-style: normal; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 6px; background: #f3f1ec; color: var(--tt-text); }
+
+.tt-invoice .tt-inv-bottom { display: grid; grid-template-columns: 1fr 340px; gap: 30px; padding: 28px 40px; }
+.tt-inv-notes { display: grid; gap: 14px; align-content: start; }
+.tt-inv-note { padding: 16px 18px; border-radius: 14px; background: #fbfaf7; border: 1px solid var(--tt-line); }
+.tt-inv-note p { font-size: 14px; line-height: 1.6; }
+.tt-invoice .tt-inv-next ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.tt-inv-next li { display: flex; gap: 10px; align-items: center; font-size: 13.5px; color: var(--tt-text); }
+.tt-inv-next li i { width: 26px; height: 26px; border-radius: 8px; background: var(--tt-gold-soft); color: var(--tt-gold); display: inline-flex; align-items: center; justify-content: center; font-size: 11px; }
+.tt-inv-totals { align-self: start; padding: 18px 20px; border-radius: 16px; background: #fbfaf7; border: 1px solid var(--tt-line); }
+.tt-inv-totals p { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; font-size: 14px; }
+.tt-inv-totals p + p { border-top: 1px dashed var(--tt-line); }
+.tt-inv-totals b { color: var(--tt-ink); }
+.tt-inv-totals .is-discount b { color: #1f8a4c; }
+.tt-invoice .tt-inv-totals p.tt-inv-grand {
+    margin: 8px -20px 0; padding: 14px 20px; border-top: 0; background: var(--tt-ink); color: #fff !important;
+}
+.tt-inv-grand span { font-weight: 700; }
+.tt-inv-grand b { color: #fff; font-size: 20px; letter-spacing: -.01em; }
+.tt-inv-due b { color: #a5281b; }
+
+.tt-inv-stamp {
+    position: absolute; right: 60px; top: 46%; transform: rotate(-14deg);
+    border: 4px solid rgba(31, 157, 85, .55); color: rgba(31, 157, 85, .6); border-radius: 12px;
+    padding: 6px 22px; font-size: 40px; font-weight: 900; letter-spacing: .15em; text-transform: uppercase; pointer-events: none;
+}
+
+.tt-inv-foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; padding: 22px 40px 30px; border-top: 1px solid var(--tt-line); }
+.tt-inv-foot b { display: block; color: var(--tt-ink); font-size: 15px; margin-bottom: 4px; }
+.tt-inv-foot span { font-size: 13px; color: var(--tt-muted); }
+.tt-inv-sign { text-align: center; min-width: 180px; }
+.tt-inv-sign span { display: block; height: 1px; background: var(--tt-ink); margin-bottom: 6px; }
+.tt-inv-sign small { font-size: 12px; color: var(--tt-muted); }
+
+.tt-inv-help { max-width: 960px; margin: 18px auto 0; display: flex; gap: 12px; align-items: center; justify-content: center; text-align: center; font-size: 14px; color: var(--tt-text); }
+.tt-inv-help > i { color: #1f9d55; font-size: 22px; }
+.tt-inv-help a { color: var(--tt-gold); font-weight: 700; }
+
+@media (max-width: 767.98px) {
+    .tt-invoice .tt-inv-head, .tt-invoice .tt-inv-meta, .tt-invoice .tt-inv-bottom, .tt-invoice .tt-inv-foot { padding-left: 20px; padding-right: 20px; }
+    .tt-inv-table-wrap { padding: 4px 20px 0; }
+    .tt-invoice .tt-inv-meta { grid-template-columns: 1fr; gap: 16px; }
+    .tt-invoice .tt-inv-bottom { grid-template-columns: 1fr; }
+    .tt-inv-title { text-align: left; }
+    .tt-inv-badges { justify-content: flex-start; }
+    .tt-inv-stamp { right: 20px; top: 120px; font-size: 26px; }
+    /* table becomes stacked rows */
+    .tt-inv-table thead { display: none; }
+    .tt-inv-table, .tt-inv-table tbody, .tt-inv-table tr, .tt-inv-table td { display: block; width: 100%; }
+    .tt-inv-table tr { padding: 14px 0; border-bottom: 1px dashed var(--tt-line); }
+    .tt-inv-table td { border: 0; padding: 3px 0; }
+    .tt-inv-table .tt-inv-num { display: none; }
+    .tt-inv-table td.tt-inv-r { display: flex; justify-content: space-between; text-align: right; font-size: 13.5px; }
+    .tt-inv-table td.tt-inv-r::before { content: attr(data-label); color: var(--tt-muted); font-weight: 600; }
+    .tt-inv-prod { margin-bottom: 8px; }
+}
+
+/* Print: only the invoice, on clean white paper */
+@media print {
+    @page { size: A4; margin: 12mm; }
+    body { background: #fff !important; padding: 0 !important; }
+    body * { visibility: hidden !important; }
+    #ttInvoice, #ttInvoice * { visibility: visible !important; }
+    #ttInvoice { position: absolute; left: 0; top: 0; width: 100%; max-width: none; border: 0; box-shadow: none; border-radius: 0; }
+    #ttInvoice, #ttInvoice * { -webkit-print-color-adjust: exact; print-color-adjust: exact; animation: none !important; }
+    .tt-inv-table thead { display: table-header-group; }
+    .tt-inv-table tr { break-inside: avoid; }
+}
