@@ -22,7 +22,7 @@
     --tt-ease: cubic-bezier(.2, .7, .2, 1);
     --tt-font: 'Plus Jakarta Sans', 'Poppins', system-ui, sans-serif;
     --tt-serif: 'Playfair Display', Georgia, serif;
-    --tt-nav-h: 74px;
+    --tt-nav-h: 90px;
 
     /* map the legacy theme tokens onto the new palette */
     --primary-color: var(--tt-ink);
@@ -145,8 +145,12 @@ a { transition: color .2s var(--tt-ease); }
     color: var(--tt-gold);
 }
 .navbar a img {
+    display: block;
     max-width: 180px;
-    width: 100%;
+    max-height: calc(var(--tt-nav-h) - 8px);
+    width: auto;
+    height: auto;
+    object-fit: contain;
 }
 .tt-brand-light, .tt-brand-light .tt-brand-text strong { color: #fff !important; }
 .tt-brand-light .tt-brand-mark { color: var(--tt-gold); }
@@ -319,7 +323,7 @@ a { transition: color .2s var(--tt-ease); }
     .navbar-collapse { order: 2; flex-grow: 0; }
 }
 @media (max-width: 991.98px) {
-    :root { --tt-nav-h: 66px; }
+    :root { --tt-nav-h: 72px; }
     .tt-brand-mark { width: 34px; height: 34px; }
     .tt-brand-text strong { font-size: 20px; }
     .tt-brand-text em { font-size: 19px; }
