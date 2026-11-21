@@ -23,6 +23,9 @@
     --tt-font: 'Plus Jakarta Sans', 'Poppins', system-ui, sans-serif;
     --tt-serif: 'Playfair Display', Georgia, serif;
     --tt-nav-h: 90px;
+    --tt-nav-pad: 8px;
+    /* real rendered header height: logo (nav-h + 20px) + top/bottom padding */
+    --tt-header-h: calc(var(--tt-nav-h) + 20px + 2 * var(--tt-nav-pad));
 
     /* map the legacy theme tokens onto the new palette */
     --primary-color: var(--tt-ink);
@@ -51,7 +54,7 @@ body {
     background: var(--tt-bg) !important;
     color: var(--tt-text);
     letter-spacing: 0;
-    padding-top: calc(var(--topbar-h, 38px) + var(--tt-nav-h)) !important;
+    padding-top: calc(var(--topbar-h, 38px) + var(--tt-header-h)) !important;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -118,7 +121,7 @@ a { transition: color .2s var(--tt-ease); }
     backdrop-filter: saturate(180%) blur(14px);
     box-shadow: 0 1px 0 var(--tt-line), 0 8px 24px -18px rgba(18, 26, 43, .35) !important;
     min-height: var(--tt-nav-h);
-    padding: 0 !important;
+    padding: var(--tt-nav-pad) 0 !important;
 }
 .navbar .container,
 .navbar-expand-lg > .container {
@@ -146,8 +149,8 @@ a { transition: color .2s var(--tt-ease); }
 }
 .navbar a img {
     display: block;
-    max-width: 180px;
-    max-height: calc(var(--tt-nav-h) - 8px);
+    max-width: 120px;
+    max-height: calc(var(--tt-nav-h) - -20px);
     width: auto;
     height: auto;
     object-fit: contain;

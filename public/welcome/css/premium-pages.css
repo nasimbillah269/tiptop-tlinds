@@ -171,7 +171,7 @@
 .tt-pd-crumb { padding: 18px 0 6px; }
 
 /* Gallery */
-.tt-gallery { position: sticky; top: calc(var(--topbar-h, 38px) + var(--tt-nav-h) + 16px); }
+.tt-gallery { position: sticky; top: calc(var(--topbar-h, 38px) + var(--tt-header-h) + 16px); }
 .tt-gallery-stage {
     position: relative; border-radius: 20px; overflow: hidden;
     background: #fff; border: 1px solid var(--tt-line);
@@ -427,7 +427,7 @@
 .tt-cart-remove:hover { background: #c0392b; color: #fff; border-color: #c0392b; }
 .tt-cart-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
 
-.tt-summary { position: sticky; top: calc(var(--topbar-h, 38px) + var(--tt-nav-h) + 16px); }
+.tt-summary { position: sticky; top: calc(var(--topbar-h, 38px) + var(--tt-header-h) + 16px); }
 .tt-sum-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; font-size: 14.5px; color: var(--tt-text); }
 .tt-sum-row + .tt-sum-row { border-top: 1px dashed var(--tt-line); }
 .tt-sum-row b { color: var(--tt-ink); }

@@ -171,7 +171,7 @@ a.tt-hero-tag {
 .tt-post-more:hover i { transform: translateX(4px); }
 
 /* ---------- Blog sidebar ---------- */
-.tt-blog-side { display: grid; gap: 20px; position: sticky; top: calc(var(--topbar-h, 38px) + var(--tt-nav-h) + 16px); }
+.tt-blog-side { display: grid; gap: 20px; position: sticky; top: calc(var(--topbar-h, 38px) + var(--tt-header-h) + 16px); }
 .tt-blog-side .tt-card-pad { padding: 22px; }
 .tt-blog-side .tt-card-title { font-size: 16px; margin-bottom: 14px; }
 .tt-side-search { position: relative; }
