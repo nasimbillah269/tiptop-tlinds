@@ -6,7 +6,7 @@
             <!-- About / Brand -->
             <div class="col-lg-4 col-md-6">
                 <div class="footer-logo mb-3">
-                    @include(general()->theme.'.layouts.brand', ['variant' => 'tt-brand-light'])
+                    @include(general()->theme.'.layouts.brand', ['variant' => 'tt-brand-light', 'useLogo' => true])
                 </div>
 
                 <p class="tt-footer-about">
