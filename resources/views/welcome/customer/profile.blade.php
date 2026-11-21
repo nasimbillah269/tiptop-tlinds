@@ -7,181 +7,114 @@
 <meta name="image" property="og:image" content="{{asset(general()->logo())}}" />
 <meta name="url" property="og:url" content="{{route('customer.profile')}}" />
 <link rel="canonical" href="{{route('customer.profile')}}">
-@endsection 
-@push('css')
-<style>
-     .my-account .nav-link, .my-account .link-item {
-        margin-bottom: 0 !important;
-        padding: 1.7rem 0 1.6rem !important;
-        font-size: 1.6rem !important;
-        text-transform: none !important;
-        border-bottom: 1px solid #e6903f !important;
-    }
-    
-    .nav-link {
-        color: #fff !important;
-    }
-    .link-item a.active {
-        color: #e89340 !important;
-    }
-    
-    .accountProfile{
-        padding: 40px;
-        background-color: #f1f1f1;
-        margin: 40px 0;
-    }
-</style>
-@endpush 
+@endsection
+
 @section('contents')
 
-<!-- Start of Page Header -->
-<div class="page-header">
-    <div class="overlayPageHeaderNew">
-        <div class="container">
-            <h1 class="page-title mb-0">My Profile</h1>
-        </div>
-    </div>
-</div>
-<!-- End of Page Header -->
+@include(welcomeTheme().'layouts.pageHero', [
+    'ttTitle'  => 'Account Details',
+    'ttIntro'  => 'Keep your personal information and delivery address up to date.',
+    'ttCrumbs' => ['My Account' => route('customer.dashboard'), 'Account Details' => null],
+])
 
-<div class="page-content pt-2">
+<section class="tt-acc">
     <div class="container">
-        <div class="tab tab-vertical row gutter-lg">
-            @include(welcomeTheme().'.customer.includes.sidebar')
-            <div class="tab-content accountProfile">
-                @include(welcomeTheme().'.alerts')<br>
-                <form method="POST" action="{{ route('customer.profile') }}" enctype="multipart/form-data">
-                  @csrf
-                  <div class="row">
-                    <div class="col-md-4 mb-3">
-                      <img src="{{asset($user->image())}}" style="max-height:60px;max-width:100px;">
+        <div class="tt-acc-grid">
+            @include(welcomeTheme().'.customer.includes.accountNav')
+
+            <div class="tt-acc-main">
+                @include(welcomeTheme().'.alerts')
+
+                <form method="POST" action="{{ route('customer.profile') }}" enctype="multipart/form-data" class="tt-acc-card tt-acc-form">
+                    @csrf
+                    <div class="tt-acc-card-head">
+                        <h3>Profile Photo</h3>
                     </div>
-                    <div class="col-md-8 mb-3">
-                        <label>Uploard Photo</label>
-                        <input type="file" class="form-control" name="image" style="height: 40px;">
-                        @if ($errors->has('image'))
-                          <p style="color: red;margin: 0;">{{ $errors->first('image') }}</p>
-                        @endif
-                    </div>
-                  </div>
-                  <div class="form-group mb-3">
-                    <label>Name<span class="required">*</span></label>
-                    <input required="" class="form-control" value="{{old('name')?:$user->name}}" name="name" type="text" placeholder="Enter Your Name">
-                    @if ($errors->has('name'))
-                      <p style="color: red;margin: 0;">{{ $errors->first('name') }}</p>
-                    @endif
-                  </div>
-                  <div class="form-group mb-3">
-                    <label>Email<span class="required">*</span></label>
-                    <input required="" class="form-control" value="{{old('email')?:$user->email}}" name="email" type="email" placeholder="Enter Your Email">
-                    @if ($errors->has('email'))
-                      <p style="color: red;margin: 0;">{{ $errors->first('email') }}</p>
-                    @endif
-                  </div>
-                  <div class="form-group mb-3">
-                    <label>Mobile <span class="required">*</span></label>
-                    <input required="" class="form-control" value="{{old('mobile')?:$user->mobile}}" name="mobile" type="text" placeholder="Enter Your Mobile">
-                    @if ($errors->has('mobile'))
-                      <p style="color: red;margin: 0;">{{ $errors->first('mobile') }}</p>
-                    @endif
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-md-4 mb-3">
-                      <label>District</label>
-                      <select class="form-control"  name="district" >
-                          <option value="">Select Option</option>
-                          @foreach(geoData(3) as $data)
-                          <option value="{{$data->id}}" {{$user->district==$data->id?'selected':''}}>{{$data->name}}</option>
-                          @endforeach
-                      </select>
-                      @if ($errors->has('district'))
-                        <p style="color: red;margin: 0;">{{ $errors->first('district') }}</p>
-                      @endif
-                    </div>
-                    <div class="form-group col-md-4 mb-3">
-                      <label>City/Thana</label>
-                      <select class="form-control"  name="city" >
-                          <option value="">Select Option</option>
-                          @if($user->district)
-                          @foreach(geoData(4,$user->district) as $data)
-                          <option value="{{$data->id}}" {{$user->city==$data->id?'selected':''}}>{{$data->name}}</option>
-                          @endforeach
-                          @endif
-                      </select>
-                      @if ($errors->has('city'))
-                        <p style="color: red;margin: 0;">{{ $errors->first('city') }}</p>
-                      @endif
-                    </div>
-                    <div class="form-group col-md-4 mb-3">
-                      <label>Postal Code</label>
-                      <input type="text" class="form-control" name="postal_code" value="{{old('postal_code')?:$user->postal_code}}" placeholder="Enter Postal Code">
-                      @if ($errors->has('postal_code'))
-                        <p style="color: red;margin: 0;">{{ $errors->first('postal_code') }}</p>
-                      @endif
-                    </div>
-                  </div>
-                  <div class="form-group mb-3">
-                    <label>Address</label>
-                    <input class="form-control" value="{{old('address')?:$user->address_line1}}" name="address" type="text" placeholder="Exp: House Road..">
-                    @if ($errors->has('address'))
-                      <p style="color: red;margin: 0;">{{ $errors->first('address') }}</p>
-                    @endif
-                  </div>
-                  <button type="submit" class="btn btn-primary">Update Profile</button>
-                          
-                          {{--<div class="form-group row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label">Division*</label>
-                            <div class="col-sm-9">
-                                @if ($errors->has('division'))
-                                <p style="color: red;margin: 0;">{{ $errors->first('division') }}</p>
-                              @endif
-                              <select class="form-control regionname" id="division" name="division">
-                                  <option value="">Select Option</option>
-                                  @foreach(App\Models\Country::where('type',2)->orderBy('name')->get() as $data)
-                                  <option value="{{$data->id}}" {{Auth::user()->division==$data->id?'selected':''}}>{{$data->name}}</option>
-                                  @endforeach
-                              </select>
+                    <div class="tt-acc-card-body">
+                        <div class="tt-acc-photo">
+                            <img src="{{ asset($user->image()) }}" alt="{{ $user->name }}" id="ttAccPhotoPreview" />
+                            <div>
+                                <label class="tt-acc-upload">
+                                    <input type="file" name="image" accept="image/*" onchange="if(this.files[0]){document.getElementById('ttAccPhotoPreview').src=URL.createObjectURL(this.files[0]);}" />
+                                    <i class="fa-solid fa-camera"></i> Change Photo
+                                </label>
+                                <p class="tt-acc-hint">JPG, PNG or GIF. Max 2MB.</p>
+                                @if ($errors->has('image'))<p class="tt-acc-error">{{ $errors->first('image') }}</p>@endif
                             </div>
-                          </div>
-                          <div class="form-group row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label">District*</label>
-                            <div class="col-sm-9">
-                                @if ($errors->has('district'))
-                                <p style="color: red;margin: 0;">{{ $errors->first('district') }}</p>
-                              @endif
-                              <select class="form-control district" id="district" name="district">
-                                  <option value="">Select Option</option>
-                                  @foreach(App\Models\Country::where('parent_id',Auth::user()->division)->orderBy('name')->get() as $data)
-                                  <option value="{{$data->id}}" {{Auth::user()->district==$data->id?'selected':''}}>{{$data->name}}</option>
-                                  @endforeach
-    
-                              </select>
+                        </div>
+                    </div>
+
+                    <div class="tt-acc-card-head tt-acc-card-head--split">
+                        <h3>Personal Information</h3>
+                    </div>
+                    <div class="tt-acc-card-body">
+                        <div class="tt-acc-fields">
+                            <div class="tt-acc-field is-wide">
+                                <label>Full Name <span>*</span></label>
+                                <input required class="form-control" value="{{ old('name') ?: $user->name }}" name="name" type="text" placeholder="Enter your name">
+                                @if ($errors->has('name'))<p class="tt-acc-error">{{ $errors->first('name') }}</p>@endif
                             </div>
-                          </div>
-                          
-                          <div class="form-group row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label">City*</label>
-                            <div class="col-sm-9">
-                                @if ($errors->has('city'))
-                                <p style="color: red;margin: 0;">{{ $errors->first('city') }}</p>
-                              @endif
-                              <select class="form-control cityname" id="city" name="city">
-                                  <option value="">Select Option</option>
-    
-                                  @foreach(App\Models\Country::where('parent_id',Auth::user()->district)->orderBy('name')->get() as $data)
-                                  <option value="{{$data->id}}" {{Auth::user()->city==$data->id?'selected':''}}>{{$data->name}}</option>
-                                  @endforeach
-    
-                              </select>
+                            <div class="tt-acc-field">
+                                <label>Email <span>*</span></label>
+                                <input required class="form-control" value="{{ old('email') ?: $user->email }}" name="email" type="email" placeholder="Enter your email">
+                                @if ($errors->has('email'))<p class="tt-acc-error">{{ $errors->first('email') }}</p>@endif
                             </div>
-                          </div>
-                            --}}
-                  </form>
+                            <div class="tt-acc-field">
+                                <label>Mobile <span>*</span></label>
+                                <input required class="form-control" value="{{ old('mobile') ?: $user->mobile }}" name="mobile" type="text" placeholder="Enter your mobile">
+                                @if ($errors->has('mobile'))<p class="tt-acc-error">{{ $errors->first('mobile') }}</p>@endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tt-acc-card-head tt-acc-card-head--split">
+                        <h3>Address</h3>
+                    </div>
+                    <div class="tt-acc-card-body">
+                        <div class="tt-acc-fields tt-acc-fields--3">
+                            <div class="tt-acc-field">
+                                <label>District</label>
+                                <select class="form-control" name="district">
+                                    <option value="">Select option</option>
+                                    @foreach(geoData(3) as $data)
+                                    <option value="{{ $data->id }}" {{ $user->district == $data->id ? 'selected' : '' }}>{{ $data->name }}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('district'))<p class="tt-acc-error">{{ $errors->first('district') }}</p>@endif
+                            </div>
+                            <div class="tt-acc-field">
+                                <label>City / Thana</label>
+                                <select class="form-control" name="city">
+                                    <option value="">Select option</option>
+                                    @if($user->district)
+                                    @foreach(geoData(4, $user->district) as $data)
+                                    <option value="{{ $data->id }}" {{ $user->city == $data->id ? 'selected' : '' }}>{{ $data->name }}</option>
+                                    @endforeach
+                                    @endif
+                                </select>
+                                @if ($errors->has('city'))<p class="tt-acc-error">{{ $errors->first('city') }}</p>@endif
+                            </div>
+                            <div class="tt-acc-field">
+                                <label>Postal Code</label>
+                                <input type="text" class="form-control" name="postal_code" value="{{ old('postal_code') ?: $user->postal_code }}" placeholder="Postal code">
+                                @if ($errors->has('postal_code'))<p class="tt-acc-error">{{ $errors->first('postal_code') }}</p>@endif
+                            </div>
+                            <div class="tt-acc-field is-wide">
+                                <label>Street Address</label>
+                                <input class="form-control" value="{{ old('address') ?: $user->address_line1 }}" name="address" type="text" placeholder="House, road, area">
+                                @if ($errors->has('address'))<p class="tt-acc-error">{{ $errors->first('address') }}</p>@endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tt-acc-card-foot">
+                        <a href="{{ route('customer.dashboard') }}" class="tt-acc-btn tt-acc-btn--ghost">Cancel</a>
+                        <button type="submit" class="tt-acc-btn"><i class="fa-solid fa-check"></i> Save Changes</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</div>
+</section>
 
 @endsection
-@push('js')
-@endpush

@@ -10,8 +10,8 @@
           </li>
          <li class="nav-item mr-auto">
           <a class="navbar-brand" href="{{route('index')}}">
-             <img class="brand-logo" src="{{asset(general()->favicon())}}" style="max-height:30px;background: white;border-radius: 50%;" />
-             <h2 class="brand-text">E-com</h2>
+             <img class="brand-logo" src="{{asset(general()->favicon())}}" alt="{{general()->title}}" />
+             <h2 class="brand-text">{{ general()->title ?: 'Admin' }}</h2>
            </a>
            </li>
          <li class="nav-item d-none d-lg-block nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse" style="    color: white;"><i class="fa-2x fas fa-bars"></i></a></li>

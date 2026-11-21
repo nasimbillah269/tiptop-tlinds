@@ -7,137 +7,129 @@
 <meta name="image" property="og:image" content="{{asset(general()->logo())}}" />
 <meta name="url" property="og:url" content="{{route('customer.dashboard')}}" />
 <link rel="canonical" href="{{route('customer.dashboard')}}">
-@endsection 
-@push('css')
-<style>
- main.main {
-    min-height: 0 !important;
-}
-p.greeting {
-    margin: 20px 0 0;
-}
-.text-dark {
-    color: #444 !important;
-}
-.text-primary {
-    color: #e6903f !important;
-}
-#account-dashboard .icon-box {
-    padding: 4rem 2rem;
-    border: 1px solid #e6903f;
-    border-radius: 3px;
-    transition: all 0.4s;
-}
-.my-account .nav-link, .my-account .link-item {
-    margin-bottom: 0 !important;
-    padding: 1.7rem 0 1.6rem !important;
-    font-size: 1.6rem !important;
-    text-transform: none !important;
-    border-bottom: 1px solid #e6903f !important;
-}
-
-.icon-box-icon i {
-    font-size: 70px;
-    font-weight: 400;
-    line-height: 1;
-}
-.icon-box p {
-    font-size: 1.3rem;
-    word-break: break-word;
-    margin: 0;
-    line-height: 1.2;
-    color: #444 !important;
-}
-.nav-link {
-    color: #444 !important;
-}
-.link-item a.active {
-    color: #e89340 !important;
-}
-.link-item a {
-    display: block;
-    background-color: aqua;
-    font-weight: bold;
-    margin: 10px 10px 17px 0px;
-    border-radius: 5px;
-    color: #444;
-    padding: 10px;
-}
-.tab-vertical .tab-content {
-    border-top: none !important;
-}
-</style>
-@endpush 
+@endsection
 
 @section('contents')
 
-<!-- Start of Page Header -->
-<div class="page-header">
-    <div class="overlayPageHeaderNew">
-        <div class="container">
-            <h1 class="page-title mb-0">My Account</h1>
-        </div>
-    </div>
-</div>
-<!-- End of Page Header -->
+@include(welcomeTheme().'layouts.pageHero', [
+    'ttTitle'  => 'My Account',
+    'ttIntro'  => 'Manage your orders, details and saved products in one place.',
+    'ttCrumbs' => ['My Account' => null],
+])
 
-<div class="page-content pt-2">
+<section class="tt-acc">
     <div class="container">
-        <div class="tab tab-vertical row gutter-lg">
-            @include(welcomeTheme().'.customer.includes.sidebar')
+        <div class="tt-acc-grid">
+            @include(welcomeTheme().'.customer.includes.accountNav')
 
-            <div class="tab-content mb-6">
-                <div class="tab-pane active in" id="account-dashboard">
-                    <p class="greeting">
-                        Hello
-                        <span class="text-dark fw-bold">{{$user->name}}</span>
-                        (not
-                        <span class="text-dark fw-bold">{{$user->name}}</span>? <a href="javascript:void(0)" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="text-primary">Log out</a>)
-                    </p>
-                    <br>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mb-4">
-                            <a href="{{route('customer.myOrders')}}" class="link-to-tab">
-                                <div class="icon-box text-center">
-                                    <span class="icon-box-icon icon-orders">
-                                        <i class="w-icon-orders"></i>
-                                    </span>
-                                    <div class="icon-box-content">
-                                        <p class="text-uppercase mb-0">Orders</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mb-4">
-                            <a href="{{route('customer.profile')}}" class="link-to-tab">
-                                <div class="icon-box text-center">
-                                    <span class="icon-box-icon icon-account">
-                                        <i class="w-icon-user"></i>
-                                    </span>
-                                    <div class="icon-box-content">
-                                        <p class="text-uppercase mb-0">Account Details</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mb-4">
-                            <a href="{{route('myWishlist')}}" class="link-to-tab">
-                                <div class="icon-box text-center">
-                                    <span class="icon-box-icon icon-wishlist">
-                                        <i class="w-icon-heart"></i>
-                                    </span>
-                                    <div class="icon-box-content">
-                                        <p class="text-uppercase mb-0">Wishlist</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
+            <div class="tt-acc-main">
+                {{-- Welcome --}}
+                <div class="tt-acc-welcome">
+                    <div>
+                        <span class="tt-acc-eyebrow">Welcome back</span>
+                        <h2>Hello, {{ $user->name }}</h2>
+                        <p>From your account dashboard you can track recent orders, update your account details and view your wishlist.</p>
                     </div>
+                    <a href="{{ route('index') }}" class="tt-acc-btn">Continue Shopping <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+
+                {{-- Stats --}}
+                <div class="tt-acc-stats">
+                    <div class="tt-acc-stat">
+                        <span class="tt-acc-stat-icon"><i class="fa-solid fa-bag-shopping"></i></span>
+                        <div><strong>{{ $stats['total'] }}</strong><span>Total Orders</span></div>
+                    </div>
+                    <div class="tt-acc-stat">
+                        <span class="tt-acc-stat-icon"><i class="fa-solid fa-truck-fast"></i></span>
+                        <div><strong>{{ $stats['active'] }}</strong><span>In Progress</span></div>
+                    </div>
+                    <div class="tt-acc-stat">
+                        <span class="tt-acc-stat-icon"><i class="fa-solid fa-circle-check"></i></span>
+                        <div><strong>{{ $stats['delivered'] }}</strong><span>Delivered</span></div>
+                    </div>
+                    <div class="tt-acc-stat">
+                        <span class="tt-acc-stat-icon"><i class="fa-solid fa-wallet"></i></span>
+                        <div><strong>{{ priceFullFormat($stats['spent']) }}</strong><span>Total Spent</span></div>
+                    </div>
+                </div>
+
+                {{-- Recent orders --}}
+                <div class="tt-acc-card">
+                    <div class="tt-acc-card-head">
+                        <h3>Recent Orders</h3>
+                        <a href="{{ route('customer.myOrders') }}">View all <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+
+                    @if($recentOrders->count())
+                    <div class="table-responsive">
+                        <table class="tt-acc-table">
+                            <thead>
+                                <tr>
+                                    <th>Order</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($recentOrders as $order)
+                                <tr>
+                                    <td class="tt-acc-inv">#{{ $order->invoice }}</td>
+                                    <td>{{ $order->created_at->format('M d, Y') }}</td>
+                                    <td><span class="tt-acc-badge is-{{ Str::slug($order->order_status) }}">{{ ucfirst($order->order_status) }}</span></td>
+                                    <td><strong>{{ priceFullFormat($order->grand_total) }}</strong> <small>/ {{ $order->items_count }} {{ Str::plural('item', $order->items_count) }}</small></td>
+                                    <td class="text-end"><a href="{{ route('customer.orderDetails', $order->invoice) }}" class="tt-acc-link">View</a></td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    @else
+                    <div class="tt-acc-empty">
+                        <i class="fa-solid fa-box-open"></i>
+                        <p>You haven't placed any orders yet.</p>
+                        <a href="{{ route('index') }}" class="tt-acc-btn">Start Shopping</a>
+                    </div>
+                    @endif
+                </div>
+
+                {{-- Quick links --}}
+                <div class="tt-acc-quick">
+                    <a href="{{ route('customer.myOrders') }}" class="tt-acc-tile">
+                        <span class="tt-acc-tile-icon"><i class="fa-solid fa-box"></i></span>
+                        <strong>My Orders</strong>
+                        <span>Track, view and manage orders</span>
+                    </a>
+                    <a href="{{ route('customer.profile') }}" class="tt-acc-tile">
+                        <span class="tt-acc-tile-icon"><i class="fa-solid fa-user-pen"></i></span>
+                        <strong>Account Details</strong>
+                        <span>Update name, phone &amp; address</span>
+                    </a>
+                    <a href="{{ route('myWishlist') }}" class="tt-acc-tile">
+                        <span class="tt-acc-tile-icon"><i class="fa-solid fa-heart"></i></span>
+                        <strong>Wishlist</strong>
+                        <span>{{ $stats['wishlist'] }} saved {{ Str::plural('product', $stats['wishlist']) }}</span>
+                    </a>
+                </div>
+
+                {{-- Account info --}}
+                <div class="tt-acc-card">
+                    <div class="tt-acc-card-head">
+                        <h3>Account Information</h3>
+                        <a href="{{ route('customer.profile') }}">Edit <i class="fa-solid fa-pen"></i></a>
+                    </div>
+                    <dl class="tt-acc-info">
+                        <div><dt>Full Name</dt><dd>{{ $user->name }}</dd></div>
+                        <div><dt>Email</dt><dd>{{ $user->email ?: '—' }}</dd></div>
+                        <div><dt>Phone</dt><dd>{{ $user->mobile ?: '—' }}</dd></div>
+                        <div><dt>Member Since</dt><dd>{{ $user->created_at ? $user->created_at->format('M d, Y') : '—' }}</dd></div>
+                        <div class="is-wide"><dt>Address</dt><dd>{{ ltrim($user->fullAddress(), ', ') ?: '—' }}</dd></div>
+                    </dl>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-
-@endsection @push('js') @endpush
+@endsection

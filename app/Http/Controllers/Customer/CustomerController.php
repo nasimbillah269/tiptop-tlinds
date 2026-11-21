@@ -34,8 +34,20 @@ class CustomerController extends Controller
     public function dashboard(Request $request){
         
         $user =Auth::user();
-        
-        return view(welcomeTheme().'customer.dashboard',compact('user'));
+
+        $orderQuery = $user->orders()->where('order_type','customer_order');
+
+        $stats = [
+            'total'     => (clone $orderQuery)->count(),
+            'active'    => (clone $orderQuery)->whereIn('order_status',['pending','confirmed','shipped'])->count(),
+            'delivered' => (clone $orderQuery)->where('order_status','delivered')->count(),
+            'spent'     => (clone $orderQuery)->where('order_status','!=','cancelled')->sum('grand_total'),
+            'wishlist'  => \App\Models\WishList::where('cookie', Cookie::get('carts'))->where('type',0)->count(),
+        ];
+
+        $recentOrders = (clone $orderQuery)->withCount('items')->limit(5)->get();
+
+        return view(welcomeTheme().'customer.dashboard',compact('user','stats','recentOrders'));
     }
 
     public function profile(Request $r){

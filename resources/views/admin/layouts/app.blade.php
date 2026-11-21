@@ -109,13 +109,16 @@
         right: 0;
         padding: 10px;
     }
-    .card-header {
-        background: #4859b9;
-        color: white;
-    }
     </style>
 
      @stack('css')
+
+     <!-- BEGIN: Premium admin UI layer (loaded last so it wins over theme + page CSS) -->
+     <link rel="preconnect" href="https://fonts.googleapis.com" />
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+     <link rel="stylesheet" type="text/css" href="{{asset(assetLinkAdmin().'/app-assets/css/admin-premium.css')}}?v={{ @filemtime(public_path(assetLinkAdmin().'/app-assets/css/admin-premium.css')) }}" />
+     <!-- END: Premium admin UI layer -->
    </head>
    <!-- END: Head-->
 
