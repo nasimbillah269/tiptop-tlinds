@@ -118,7 +118,7 @@ a { transition: color .2s var(--tt-ease); }
     backdrop-filter: saturate(180%) blur(14px);
     box-shadow: 0 1px 0 var(--tt-line), 0 8px 24px -18px rgba(18, 26, 43, .35) !important;
     min-height: var(--tt-nav-h);
-    padding: 10px 0 !important;
+    padding: 0 !important;
 }
 .navbar .container,
 .navbar-expand-lg > .container {
@@ -143,6 +143,10 @@ a { transition: color .2s var(--tt-ease); }
     font-style: italic; font-weight: 500;
     font-size: 22px;
     color: var(--tt-gold);
+}
+.navbar a img {
+    max-width: 180px;
+    width: 100%;
 }
 .tt-brand-light, .tt-brand-light .tt-brand-text strong { color: #fff !important; }
 .tt-brand-light .tt-brand-mark { color: var(--tt-gold); }

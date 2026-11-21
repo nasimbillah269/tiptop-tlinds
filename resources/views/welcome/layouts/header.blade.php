@@ -31,7 +31,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            @include(general()->theme.'.layouts.brand')
+            @include(general()->theme.'.layouts.brand', ['useLogo' => true])
 
             <div class="header-cart">
                 <a href="{{ url('carts') }}" class="header-cart-link" aria-label="Cart">
