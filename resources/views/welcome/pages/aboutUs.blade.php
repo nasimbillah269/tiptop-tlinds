@@ -21,7 +21,7 @@
 @endpush
 
 @php
-    $brand = general()->title;
+    $brand = 'Tiptop Blinds';
     $g = general();
     $tel = preg_replace('/[^0-9+]/', '', (string) $g->mobile);
     // Photos for the story collage: the project gallery managed in admin.
