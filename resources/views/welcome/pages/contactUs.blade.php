@@ -143,9 +143,6 @@
                     </div>
                     @endif
                 </div>
-                <div class="tt-map mt-4">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d228.0308572682484!2d90.3887698525286!3d23.87210540357918!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c41732ab74cb%3A0x427e8e04b15659fa!2sHouse%2024%20Rd%2010%2C%20Dhaka%201230!5e0!3m2!1sen!2sbd!4v1764238264927!5m2!1sen!2sbd" title="Showroom location" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
             </div>
         </div>
 
