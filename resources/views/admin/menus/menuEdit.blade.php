@@ -117,6 +117,7 @@
                                                     <option value="">Select Location</option>
                                                     <option value="Header Menus" {{$parent->location=='Header Menus'?'selected':''}}>Header Menus</option>
                                                     <option value="Home Category Product" {{$parent->location=='Home Category Product'?'selected':''}}>Home Category Product</option>
+                                                    <option value="Home Sidebar Categories" {{$parent->location=='Home Sidebar Categories'?'selected':''}}>Home Sidebar Categories</option>
                                                     <option value="Header Categories" {{$parent->location=='Header Categories'?'selected':''}}>Header Categories</option>
                                                     <option value="Top Categories" {{$parent->location=='Top Categories'?'selected':''}}>Top Categories</option>
                                                     <option value="Footer Two" {{$parent->location=='Footer Two'?'selected':''}}>Footer Two</option>

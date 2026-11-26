@@ -1,18 +1,45 @@
 @php
     $heroSlider = slider('Front Page Slider');
 
-    // Top-level active product categories for the hero sidebar.
-    $heroCategories = App\Models\Attribute::with('imageFile')
-        ->where('type', 0)
-        ->where('status', 'active')
-        ->whereNull('parent_id')
-        ->orderBy('id')
-        ->get();
+    // Hero sidebar categories come from the admin menu at location
+    // "Home Sidebar Categories" (Admin > Menus). Without that menu,
+    // fall back to all top-level active product categories.
+    $heroMenu = menu('Home Sidebar Categories');
+    $heroCategories = collect();
+    if ($heroMenu) {
+        foreach ($heroMenu->subMenus as $item) {
+            $ctg = $item->menu_type == 3 ? $item->productCtglink : null;
+            if ($item->menu_type == 3 && (!$ctg || $ctg->status != 'active')) {
+                continue; // linked category deleted or hidden
+            }
+            $heroCategories->push((object) [
+                'ctg'      => $ctg,
+                'name'     => $item->menuName(),
+                'link'     => url($item->menuLink() ?: '/'),
+                'ownThumb' => $item->imageFile ? $item->imageFile->file_url : null,
+            ]);
+        }
+    }
+    if ($heroCategories->isEmpty()) {
+        $heroCategories = App\Models\Attribute::with('imageFile')
+            ->where('type', 0)
+            ->where('status', 'active')
+            ->whereNull('parent_id')
+            ->orderBy('id')
+            ->get()
+            ->map(fn ($ctg) => (object) [
+                'ctg'      => $ctg,
+                'name'     => $ctg->name,
+                'link'     => route('productCategory', $ctg->slug ?: Str::slug($ctg->name)),
+                'ownThumb' => null,
+            ]);
+    }
 
-    // Thumbnail: the category's own image, otherwise the latest product image in it.
-    $heroCategories->each(function ($ctg) {
-        $thumb = $ctg->imageFile ? $ctg->imageFile->file_url : null;
-        if (!$thumb) {
+    // Thumbnail: menu item image, else the category's image, else the latest product image in it.
+    $heroCategories->each(function ($row) {
+        $ctg = $row->ctg;
+        $thumb = $row->ownThumb ?: ($ctg && $ctg->imageFile ? $ctg->imageFile->file_url : null);
+        if (!$thumb && $ctg) {
             $product = App\Models\Post::with('imageFile')
                 ->where('type', 2)
                 ->where('status', 'active')
@@ -24,8 +51,8 @@
                 ->first();
             $thumb = $product ? $product->imageFile->file_url : null;
         }
-        $ctg->heroThumb = asset(ltrim($thumb ?: 'media/noimage.jpg', '/'));
-        $ctg->heroLink = route('productCategory', $ctg->slug ?: Str::slug($ctg->name));
+        $row->heroThumb = asset(ltrim($thumb ?: 'media/noimage.jpg', '/'));
+        $row->heroLink = $row->link;
     });
 @endphp
 
