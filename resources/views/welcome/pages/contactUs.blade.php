@@ -119,7 +119,7 @@
                                 @error('message')<p class="tt-field-error">{{ $message }}</p>@enderror
                             </div>
                         </div>
-                        <button class="tt-btn tt-btn-lg tt-btn-block mt-4 g-recaptcha" data-sitekey="6LcE-OctAAAAAOz1G3HLjksMTwE3-p6l2Zj-T3K7" data-callback="onSubmit" data-action="submit">
+                        <button type="submit" class="tt-btn tt-btn-lg tt-btn-block mt-4">
                             <i class="fas fa-paper-plane"></i> Send Message
                         </button>
                     </form>
@@ -143,6 +143,9 @@
                     </div>
                     @endif
                 </div>
+                <div class="tt-map mt-4">
+                    <iframe src="https://maps.google.com/maps?q=Globe%20Chamber%2C%20104%20Motijheel%20Rd%2C%20Dhaka%201000&z=17&output=embed" title="Showroom location" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
             </div>
         </div>
 
@@ -161,11 +164,4 @@
     </div>
 </div>
 
-@endsection @push('js')
-<script src="https://www.google.com/recaptcha/api.js"></script>
-<script>
-    function onSubmit(token) {
-        document.getElementById("contentForm").submit();
-    }
-</script>
-@endpush
+@endsection

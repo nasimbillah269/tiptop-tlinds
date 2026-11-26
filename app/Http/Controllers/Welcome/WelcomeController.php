@@ -452,33 +452,6 @@ class WelcomeController extends Controller
           'message' => 'nullable|max:500',
       ]);
 
-      if(general()->mail_status && general()->mail_from_address){
-            //Mail Data
-            $datas =array('r'=>$r);
-            $template ='mails.ContactMail';
-            $toEmail =general()->mail_from_address;
-            $toName =general()->mail_from_name;
-            $subject ='Contact Mail Form '.general()->title;
-        
-           sendMail($toEmail,$toName,$subject,$datas,$template);
-        }
-        
-        
-        // Send a POST request to Google for reCAPTCHA verification
-        $recaptchaSecret = '6LcE-OctAAAAAF0Zbt-stoQx4zjnaqBKR2z92LH7';
-        $recaptchaResponse = $r->input('g-recaptcha-response');
-        $remoteIp = $r->ip();
-        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret' => $recaptchaSecret,
-            'response' => $recaptchaResponse,
-            'remoteip' => $remoteIp,
-        ]);
-        $result = $response->json();
-        if (!$result['success'] || $result['score'] < 0.5) {
-            Session()->flash('error','reCAPTCHA verification failed. Please try again.');
-            return back()->withInput();
-        }
-
         if(general()->mail_status && general()->mail_from_address){
             //Mail Data
             $datas =array('r'=>$r);
