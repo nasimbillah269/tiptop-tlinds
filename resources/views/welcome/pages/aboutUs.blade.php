@@ -76,9 +76,8 @@
         <section class="tt-about-story">
             <div class="tt-about-copy">
                 <span class="tt-eyebrow tt-eyebrow-left">Our Story</span>
-                <h2 class="tt-h2">From a vision in Uttara to a trusted name across Dhaka</h2>
-                <p>{{ $brand }} started in Uttara, Dhaka, with one clear vision: to bring high-quality, stylish, and affordable blinds to people across Bangladesh. Over the years, we've grown into a trusted name, serving families, businesses, and interior designers who want a modern touch for their windows.</p>
-                <p>For us, blinds are not just about covering windows. They're about the right balance of light, privacy, and style. What makes us proud is hearing customers say how much their rooms changed after installation.</p>
+                <p>{{ $brand }} started in Uttara, Dhaka, with a clear vision: to bring high-quality, stylish, and affordable blinds to people across Bangladesh. Over the years, we've grown into a trusted name, serving families, businesses, and interior designers who want a modern touch for their windows.</p>
+                <p>For us, blinds are not just about covering windows&mdash;they are about striking the right balance between light, privacy, and style. What makes us proudest is hearing customers say how much their rooms have transformed after installation.</p>
                 <blockquote class="tt-quote">
                     <i class="fas fa-quote-left"></i>
                     When you choose {{ $brand }}, you're not just buying blinds. You're working with a team that truly cares about your space.
