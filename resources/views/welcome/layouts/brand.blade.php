@@ -1,5 +1,5 @@
 @php
-    $brandParts = explode(' ', trim(general()->title ?: 'TipTop Blinds'), 2);
+    $brandParts = explode(' ', trim(general()->title ?: 'Tiptop Blinds'), 2);
     $showLogo = ($useLogo ?? false) && general()->logo;
 @endphp
 <a href="{{ route('index') }}" class="tt-brand {{ $variant ?? '' }}" aria-label="{{ general()->title }} - Home">

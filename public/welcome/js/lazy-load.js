@@ -1,5 +1,5 @@
 /* ==========================================================================
-   TipTop Blinds - lazy images + scroll reveal (jQuery + IntersectionObserver)
+   Tiptop Blinds - lazy images + scroll reveal (jQuery + IntersectionObserver)
 
    Images:  <img src="[1px placeholder]" data-src="real.jpg" class="tt-lazy">
             The real file is only requested when the image is about to enter the

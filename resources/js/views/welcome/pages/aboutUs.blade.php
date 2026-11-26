@@ -950,7 +950,7 @@
                 <i class="fas fa-window-maximize"></i>
             </div>
             <h1 class="animate__animated animate__fadeInDown">Window Blinds in Dhaka</h1>
-            <p class="lead animate__animated animate__fadeInUp animate__delay-1s">Welcome to TipTop Blinds, your local partner for beautiful and practical window blinds in Dhaka. We know that choosing the right blinds for your home or office can feel overwhelming, but that's where we come in.</p>
+            <p class="lead animate__animated animate__fadeInUp animate__delay-1s">Welcome to Tiptop Blinds, your local partner for beautiful and practical window blinds in Dhaka. We know that choosing the right blinds for your home or office can feel overwhelming, but that's where we come in.</p>
         </div>
     </section>
 
@@ -972,10 +972,10 @@
                 <p class="section-subtitle mx-auto">From a vision in Uttara to a trusted name across Dhaka</p>
             </div>
             <div class="content-card">
-                <p style="font-size: 1.05rem;">TipTop Blinds started in Uttara, Dhaka, with one clear vision: to bring high-quality, stylish, and affordable blinds to people across Bangladesh. Over the years, we've grown into a trusted name in the blinds market, serving families, businesses, and interior designers who want a modern touch for their windows.</p>
+                <p style="font-size: 1.05rem;">Tiptop Blinds started in Uttara, Dhaka, with one clear vision: to bring high-quality, stylish, and affordable blinds to people across Bangladesh. Over the years, we've grown into a trusted name in the blinds market, serving families, businesses, and interior designers who want a modern touch for their windows.</p>
                 <p class="mt-3" style="font-size: 1.05rem;">What makes us proud is not just selling blinds—it's hearing our customers say how much their rooms have transformed after installation. That's why we put so much effort into offering both excellent products and personal service.</p>
                 <div class="story-highlight mt-4">
-                    <strong><i class="fas fa-heart"></i> When you choose TipTop Blinds, you're not just buying blinds—you're working with a team that truly cares about your space.</strong>
+                    <strong><i class="fas fa-heart"></i> When you choose Tiptop Blinds, you're not just buying blinds—you're working with a team that truly cares about your space.</strong>
                 </div>
             </div>
         </div>
@@ -1047,7 +1047,7 @@
     <section class="section bg-pattern">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="section-title">Why People Choose TipTop Blinds</h2>
+                <h2 class="section-title">Why People Choose Tiptop Blinds</h2>
                 <p class="section-subtitle mx-auto">We know you have plenty of options. Here's why customers trust us</p>
             </div>
             
@@ -1096,7 +1096,7 @@
         <div class="container">
             <div class="mission-box">
                 <h2 class="mb-4"><i class="fas fa-bullseye"></i> Our Mission</h2>
-                <p style="font-size: 1.25rem; line-height: 1.8;">At TipTop Blinds, our mission is more than just selling blinds. We want to make window blinds in Dhaka an easy, stylish, and affordable choice for everyone. Whether it's helping a family add privacy to their new home, or assisting a business in creating a professional office look, we're here to make sure every customer walks away happy.</p>
+                <p style="font-size: 1.25rem; line-height: 1.8;">At Tiptop Blinds, our mission is more than just selling blinds. We want to make window blinds in Dhaka an easy, stylish, and affordable choice for everyone. Whether it's helping a family add privacy to their new home, or assisting a business in creating a professional office look, we're here to make sure every customer walks away happy.</p>
             </div>
         </div>
     </section>
@@ -1122,7 +1122,7 @@
             </div>
 
             <div class="cta-box">
-                <h4><i class="fas fa-star"></i> At TipTop Blinds, we believe every window tells a story</h4>
+                <h4><i class="fas fa-star"></i> At Tiptop Blinds, we believe every window tells a story</h4>
                 <p>Let us help you write yours with the perfect blinds. Because when you choose us, you're not just choosing window blinds in Dhaka—you're choosing comfort, style, and a team that cares.</p>
             </div>
         </div>

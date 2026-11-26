@@ -2,7 +2,7 @@
 
 > {{ trim(strip_tags(general()->meta_description)) }}
 
-TipTop Blinds supplies and installs window blinds and curtains in Bangladesh (Dhaka and nationwide): vertical, roller, zebra, blackout, sunscreen, printing, wooden, venetian, motorized blinds, PVC strip curtains and curtain accessories. Custom sizes with professional measurement and installation.
+Tiptop Blinds supplies and installs window blinds and curtains in Bangladesh (Dhaka and nationwide): vertical, roller, zebra, blackout, sunscreen, printing, wooden, venetian, motorized blinds, PVC strip curtains and curtain accessories. Custom sizes with professional measurement and installation.
 
 - Phone / WhatsApp: {{ general()->mobile }}
 - Email: {{ general()->email }}

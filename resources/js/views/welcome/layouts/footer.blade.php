@@ -12,7 +12,7 @@
                 </div>
 
                 <p>
-                   Welcome to TipTop Blinds, your local partner for beautiful and practical window blinds in Dhaka.
+                   Welcome to Tiptop Blinds, your local partner for beautiful and practical window blinds in Dhaka.
                 </p>
 
                 <div class="mt-3">
@@ -86,7 +86,7 @@
         <!-- Footer Bottom -->
         <div class="footer-bottom text-center">
             <p>
-                &copy; 2026 TipTop Blinds. All Rights Reserved. |
+                &copy; 2026 Tiptop Blinds. All Rights Reserved. |
                 <a href="#" style="color: #f59e0b;">Privacy Policy</a> |
                 <a href="#" style="color: #f59e0b;">Terms & Conditions</a> |
                 Developed by <a href="#" style="color: #f59e0b;">Natore IT</a>
