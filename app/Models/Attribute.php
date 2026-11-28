@@ -70,6 +70,22 @@ class Attribute extends Model
             return 'media/noimage.jpg';
         }
     }
+
+    // Product category thumbnail as shown on the website: the uploaded
+    // Category Image, otherwise the newest active product's image in it.
+    public function thumbImage(){
+        if($this->imageFile){
+            return $this->imageFile->file_url;
+        }
+        $product = Post::with('imageFile')
+            ->where('type', 2)
+            ->where('status', 'active')
+            ->whereHas('ctgProducts', fn ($q) => $q->where('reff_id', $this->id))
+            ->whereHas('imageFile')
+            ->latest()
+            ->first();
+        return $product ? $product->imageFile->file_url : 'media/noimage.jpg';
+    }
     
     public function slideImage(){
         if(isMobileDevice() && $this->bannerFile){

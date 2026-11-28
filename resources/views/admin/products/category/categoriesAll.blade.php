@@ -143,7 +143,10 @@
                                     @endif
                                 </td>
                                 <td style="padding: 5px; text-align: center;">
-                                    <img src="{{asset($category->image())}}" style="max-width: 80px; max-height: 50px;" />
+                                    <img src="{{asset(ltrim($category->thumbImage(), '/'))}}" style="max-width: 80px; max-height: 50px;" />
+                                    @if(!$category->imageFile)
+                                    <div style="font-size: 10px; color: #999;" title="No Category Image uploaded; the website shows this product photo. Upload one in Edit to replace it.">from product</div>
+                                    @endif
                                 </td>
                                 <td class="center">
                                     <a href="{{route('admin.productsCategoriesAction',['edit',$category->id])}}" class="btn btn-sm btn-info">Edit</a>

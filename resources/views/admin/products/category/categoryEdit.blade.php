@@ -124,9 +124,11 @@
                                     @endif
                                 </div>
                                 <div class="form-group">
-                                    <img src="{{asset($category->image())}}" style="max-width: 100px;" />
+                                    <img src="{{asset(ltrim($category->thumbImage(), '/'))}}" style="max-width: 100px;" />
                                     @if($category->imageFile)
                                     <a href="{{route('admin.mediesDelete',$category->imageFile->id)}}" class="mediaDelete" style="color: red;"><i class="fa fa-trash"></i></a>
+                                    @else
+                                    <p style="font-size: 11px; color: #999; margin: 4px 0 0;">Website is showing a product photo from this category. Upload a Category Image above to replace it.</p>
                                     @endif
                                 </div>
                                 <div class="form-group">

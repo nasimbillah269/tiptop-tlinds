@@ -38,19 +38,7 @@
     // Thumbnail: menu item image, else the category's image, else the latest product image in it.
     $heroCategories->each(function ($row) {
         $ctg = $row->ctg;
-        $thumb = $row->ownThumb ?: ($ctg && $ctg->imageFile ? $ctg->imageFile->file_url : null);
-        if (!$thumb && $ctg) {
-            $product = App\Models\Post::with('imageFile')
-                ->where('type', 2)
-                ->where('status', 'active')
-                ->whereHas('ctgProducts', function ($q) use ($ctg) {
-                    $q->where('reff_id', $ctg->id);
-                })
-                ->whereHas('imageFile')
-                ->latest()
-                ->first();
-            $thumb = $product ? $product->imageFile->file_url : null;
-        }
+        $thumb = $row->ownThumb ?: ($ctg ? $ctg->thumbImage() : null);
         $row->heroThumb = asset(ltrim($thumb ?: 'media/noimage.jpg', '/'));
         $row->heroLink = $row->link;
     });
