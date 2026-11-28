@@ -369,7 +369,7 @@ a { transition: color .2s var(--tt-ease); }
     grid-template-columns: 300px minmax(0, 1fr);
     gap: 20px;
     align-items: stretch;
-    height: var(--tt-hero-h);
+    /* Height comes from the slider (image ratio); the sidebar matches it. */
 }
 
 /* Category card */
@@ -383,6 +383,7 @@ a { transition: color .2s var(--tt-ease); }
     flex-direction: column;
     min-height: 0;
     position: relative;
+    contain: size; /* don't grow the row; stretch to the slider's height and scroll the list */
 }
 .tt-cat-head {
     display: flex; align-items: center; gap: 12px;
@@ -437,7 +438,8 @@ a { transition: color .2s var(--tt-ease); }
     border-radius: var(--tt-radius);
     overflow: hidden;
     box-shadow: var(--tt-shadow);
-    height: var(--tt-hero-h) !important;
+    height: auto !important;
+    aspect-ratio: 1280 / 632; /* same shape as the slide banners, so the whole image shows */
     margin: 0 !important;
 }
 .tt-slider .carousel-inner,
@@ -448,7 +450,7 @@ a { transition: color .2s var(--tt-ease); }
     position: relative; z-index: 1;
     width: 100% !important; height: 100% !important;
     max-width: none !important; margin: 0 !important;
-    object-fit: cover !important; /* banner fills the whole box, no empty sides */
+    object-fit: cover !important; /* box has the banner's ratio, so nothing is cut off */
     object-position: center;
     display: block;
 }
