@@ -65,21 +65,21 @@
                         };
                         $ttTreeActive = function ($m) use (&$ttTreeActive, $ttIsActive) {
                             if ($ttIsActive($m)) return true;
-                            foreach ($m->subMenus as $c) { if ($ttTreeActive($c)) return true; }
+                            foreach ($m->liveSubMenus as $c) { if ($ttTreeActive($c)) return true; }
                             return false;
                         };
                     @endphp
                     @if($menus = menu('Header Menus'))
-                        @foreach($menus->subMenus as $menu)
-                            <li class="nav-item {{ $menu->subMenus->count() ? 'dropdown' : '' }}">
-                                <a class="nav-link {{ $menu->subMenus->count() ? 'dropdown-toggle' : '' }} {{ $ttTreeActive($menu) ? 'active' : '' }}"
+                        @foreach($menus->liveSubMenus as $menu)
+                            <li class="nav-item {{ $menu->liveSubMenus->count() ? 'dropdown' : '' }}">
+                                <a class="nav-link {{ $menu->liveSubMenus->count() ? 'dropdown-toggle' : '' }} {{ $ttTreeActive($menu) ? 'active' : '' }}"
                                    @if($ttIsActive($menu)) aria-current="page" @endif
                                    href="{{ url($menu->menuLink()) }}"
-                                   @if($menu->subMenus->count()) id="menuDropdown{{ $loop->index }}" aria-haspopup="true" aria-expanded="false" @endif>
+                                   @if($menu->liveSubMenus->count()) id="menuDropdown{{ $loop->index }}" aria-haspopup="true" aria-expanded="false" @endif>
                                     {{ $menu->menuName() }}
                                 </a>
 
-                                @if($menu->subMenus->count())
+                                @if($menu->liveSubMenus->count())
                                     <ul class="dropdown-menu" aria-labelledby="menuDropdown{{ $loop->index }}">
                                         {{-- On phones the parent link only opens this list, so offer the parent page here too --}}
                                         <li class="d-lg-none">
@@ -87,15 +87,15 @@
                                                 View all {{ $menu->menuName() }} <i class="fas fa-arrow-right"></i>
                                             </a>
                                         </li>
-                                        @foreach($menu->subMenus as $submenu)
-                                            <li class="{{ $submenu->subMenus->count() ? 'dropdown-submenu' : '' }}">
+                                        @foreach($menu->liveSubMenus as $submenu)
+                                            <li class="{{ $submenu->liveSubMenus->count() ? 'dropdown-submenu' : '' }}">
                                                 <a class="dropdown-item {{ $ttTreeActive($submenu) ? 'active' : '' }}" @if($ttIsActive($submenu)) aria-current="page" @endif href="{{ url($submenu->menuLink()) }}">
                                                     {{ $submenu->menuName() }}
                                                 </a>
 
-                                                @if($submenu->subMenus->count())
+                                                @if($submenu->liveSubMenus->count())
                                                     <ul class="dropdown-menu">
-                                                        @foreach($submenu->subMenus as $subsubmenu)
+                                                        @foreach($submenu->liveSubMenus as $subsubmenu)
                                                             <li>
                                                                 <a class="dropdown-item {{ $ttIsActive($subsubmenu) ? 'active' : '' }}" @if($ttIsActive($subsubmenu)) aria-current="page" @endif href="{{ url($subsubmenu->menuLink()) }}">
                                                                     {{ $subsubmenu->menuName() }}

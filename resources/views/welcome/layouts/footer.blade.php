@@ -26,7 +26,7 @@
                 <h5>Quick Links</h5>
                 @if($footerMenu = menu('Footer Two'))
                 <ul>
-                    @foreach($footerMenu->subMenus as $item)
+                    @foreach($footerMenu->liveSubMenus as $item)
                     <li><a href="{{ url($item->menuLink()) }}">{{ $item->menuName() }}</a></li>
                     @endforeach
                 </ul>
@@ -38,7 +38,7 @@
                 <h5>Our Products</h5>
                 @if($footerMenu = menu('Footer Three'))
                 <ul>
-                    @foreach($footerMenu->subMenus as $item)
+                    @foreach($footerMenu->liveSubMenus as $item)
                     <li><a href="{{ url($item->menuLink()) }}">{{ $item->menuName() }}</a></li>
                     @endforeach
                 </ul>

@@ -7,7 +7,7 @@
     $heroMenu = menu('Home Sidebar Categories');
     $heroCategories = collect();
     if ($heroMenu) {
-        foreach ($heroMenu->subMenus as $item) {
+        foreach ($heroMenu->liveSubMenus as $item) {
             $ctg = $item->menu_type == 3 ? $item->productCtglink : null;
             if ($item->menu_type == 3 && (!$ctg || $ctg->status != 'active')) {
                 continue; // linked category deleted or hidden

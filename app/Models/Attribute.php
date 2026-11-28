@@ -224,6 +224,18 @@ class Attribute extends Model
     public function subMenus(){
         return $this->hasMany(Attribute::class,'parent_id')->where('status','<>','temp')->orderBy('view','asc');
     }
+
+    // Website menus: same as subMenus, but skips items whose linked page or
+    // category was deleted (those have no link and would break the page).
+    // Admin keeps using subMenus so broken items can still be seen and removed.
+    public function liveSubMenus(){
+        return $this->subMenus()->where(function ($q) {
+            $q->whereNotIn('menu_type', [1, 2, 3])
+              ->orWhere(fn ($q) => $q->where('menu_type', 1)->whereHas('pagelink'))
+              ->orWhere(fn ($q) => $q->where('menu_type', 2)->whereHas('blogCtglink'))
+              ->orWhere(fn ($q) => $q->where('menu_type', 3)->whereHas('productCtglink'));
+        });
+    }
     
     public function MenuItems(){
         return $this->hasMany(Attribute::class,'category_id')->where('status','<>','temp')->orderBy('view','asc');

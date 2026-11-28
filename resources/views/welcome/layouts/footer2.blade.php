@@ -29,7 +29,7 @@
                     <div class="footerGrid">
                         <h5>{{$menu->name}}</h5>
                         <ul>
-                            @foreach($menu->subMenus as $menu)
+                            @foreach($menu->liveSubMenus as $menu)
                             <li>
                                 <a href="{{asset($menu->menuLink())}}">{{$menu->menuName()}}</a>
                             </li>

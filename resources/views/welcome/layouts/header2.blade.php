@@ -128,7 +128,7 @@
                             <div class="container">
                                 @if($menu = menu('Header Categories'))
                                 <ul class="categroyList">
-                                    @foreach($menu->subMenus as $menu)
+                                    @foreach($menu->liveSubMenus as $menu)
                                     <li>
                                         <a href="{{asset($menu->menuLink())}}">{{$menu->menuName()}}</a>
                                     </li>
@@ -148,12 +148,12 @@
                             <li>
                                 <a href="{{route('index')}}">Home</a>
                             </li>
-                            @foreach($menu->subMenus as $menu)
-                            @if($menu->subMenus()->count()  > 0)
+                            @foreach($menu->liveSubMenus as $menu)
+                            @if($menu->liveSubMenus()->count()  > 0)
                             <li class="dropdown">
                                 <a href="{{asset($menu->menuLink())}}">{{$menu->menuName()}} <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                                 <div class="dropdown-content">
-                                    @foreach($menu->subMenus as $menu)
+                                    @foreach($menu->liveSubMenus as $menu)
                                     <ul>
                                         <li>
                                             <a href="{{asset($menu->menuLink())}}">{{$menu->menuName()}}</a>
@@ -232,16 +232,16 @@
                 @if($menu = menu('Header Menus'))
                 <ul class="mobileCate">
                     <li><a href="{{route('index')}}">Home</a></li>
-                    @foreach($menu->subMenus as $menu)
+                    @foreach($menu->liveSubMenus as $menu)
                     <li>
                         
-                        @if($menu->subMenus->count() > 0)
+                        @if($menu->liveSubMenus->count() > 0)
                         <span class="downMenus">
                             <a href="{{asset($menu->menuLink())}}">{{$menu->menuName()}}</a>
                             <i class="fa fa-angle-down"></i>
                         </span>
                         <ul style="padding-left: 30px;">
-                        @foreach($menu->subMenus as $menu)
+                        @foreach($menu->liveSubMenus as $menu)
                             <li><a href="{{asset($menu->menuLink())}}">{{$menu->menuName()}}</a></li>
                         @endforeach
                         </ul>
@@ -384,19 +384,19 @@
             </li>
 
             {{-- Other Menu Items --}}
-            @foreach($menu->subMenus as $item)
+            @foreach($menu->liveSubMenus as $item)
                 @php
                     // Check if current URL is part of this menu or any sub-menu
                     $isActiveParent = request()->is($item->menuLink() . '*');
                 @endphp
 
-                @if($item->subMenus()->count() > 0)
+                @if($item->liveSubMenus()->count() > 0)
                     <li class="dropdown {{ $isActiveParent ? 'active' : '' }}">
                         <a href="{{ asset($item->menuLink()) }}">
                             {{ $item->menuName() }} <i class="fa fa-angle-down" aria-hidden="true"></i>
                         </a>
                         <div class="dropdown-content">
-                            @foreach($item->subMenus as $sub)
+                            @foreach($item->liveSubMenus as $sub)
                                 <ul>
                                     <li>
                                         <a href="{{ asset($sub->menuLink()) }}" 
